@@ -77,6 +77,8 @@ li.dropdown:hover > .dropdown-menu
     background-color: whitesmoke;
     padding-top: 10px;
     padding-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .plot_text
