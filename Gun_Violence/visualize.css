@@ -1,0 +1,93 @@
+header 
+{
+    background-color: whitesmoke;
+    padding: 30px;
+    text-align: left;
+    font-size: 35px;
+    color: white;
+    margin-left: 60px;
+  }
+
+.navbar-default .navbar-nav > li.dropdown:hover > a, 
+.navbar-default .navbar-nav > li.dropdown:hover > a:hover,
+.navbar-default .navbar-nav > li.dropdown:hover > a:focus 
+{
+    background-color: rgb(231, 231, 231);
+    color: rgb(85, 85, 85);
+}
+
+li.dropdown:hover > .dropdown-menu 
+{
+    display: block;
+}
+
+.navbar-header
+{
+    min-height: 100px;
+}
+
+.navbar-brand
+{
+    margin-top: 23px;
+    padding: 9px 10px !important;
+    font-size: 25px;
+}
+
+.dropdown-toggle
+{
+    margin-top: 23px;
+    padding: 9px 10px !important;
+    font-size: 25px;
+}
+
+.navbar-compare
+{
+    margin-top: 20px;
+    padding: 15px 15px !important;
+    font-size: 25px;
+    float: left;
+}
+
+.navbar-data
+{
+    margin-top: 20px;
+    padding: 15px 15px !important;
+    font-size: 25px;
+    float: right; 
+}
+
+.plot_header
+{
+    margin-top: 130px;
+    text-align: center;
+    font-weight: bold;
+}
+.plot
+{
+    margin-top: 50px;
+    display: block;
+    margin-left: 150px;
+    float: left;
+}
+
+.plot_summary
+{
+    margin-top: 50px;
+    margin: center;
+    background-color: whitesmoke;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.plot_text
+{
+    margin-top: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 12pt;
+}
+
+body
+{
+    background-color: lightgrey;
+}
