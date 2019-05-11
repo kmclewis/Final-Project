@@ -54,6 +54,8 @@ li.dropdown:hover > .dropdown-menu
     background-color: whitesmoke;
     padding-top: 20px;
     padding-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .container-right
