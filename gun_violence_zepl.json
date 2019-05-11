@@ -1,0 +1,359 @@
+{
+  "paragraphs": [
+    {
+      "title": "",
+      "text": "%pyspark\nfrom pyspark.ml.feature import HashingTF, IDF, Tokenizer, StopWordsRemover",
+      "user": "",
+      "dateUpdated": "May 10, 2019 7:06:23 PM",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190510-172550_1742640412",
+      "dateCreated": "May 10, 2019 5:25:50 PM",
+      "dateStarted": "May 10, 2019 7:06:23 PM",
+      "dateFinished": "May 10, 2019 7:06:23 PM",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Read in data from S3 Buckets\nfrom pyspark import SparkFiles\nfrom pyspark.sql.functions import col,sum\nurl \u003d\"https://s3.us-east-2.amazonaws.com/data-bootcamp-kmc/CleanedGunViolenceData.csv\"\nspark.sparkContext.addFile(url)\ndf \u003d spark.read.csv(SparkFiles.get(\"CleanedGunViolenceData.csv\"), sep\u003d\",\", header\u003dTrue)\ndf \u003d df.where(col(\"incident_characteristics\").isNotNull()) \ndf \u003d df.select(\u0027incident_characteristics\u0027)\n# Show DataFrame\ndf.show()",
+      "user": "",
+      "dateUpdated": "May 10, 2019 7:06:24 PM",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+------------------------+\n|incident_characteristics|\n+------------------------+\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Dead (murd...|\n|    Shot - Wounded/In...|\n|    Shot - Dead (murd...|\n|    Shot - Dead (murd...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n|    Shot - Wounded/In...|\n+------------------------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190510-172550_684681384",
+      "dateCreated": "May 10, 2019 5:25:50 PM",
+      "dateStarted": "May 10, 2019 7:06:23 PM",
+      "dateFinished": "May 10, 2019 7:06:24 PM",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\r\nfrom pyspark.sql.functions import col,sum\r\ndf.select(*(sum(col(c).isNull().cast(\"int\")).alias(c) for c in df.columns)).show()",
+      "user": "",
+      "dateUpdated": "May 10, 2019 7:06:24 PM",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+------------------------+\n|incident_characteristics|\n+------------------------+\n|                       0|\n+------------------------+\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190510-181253_98377954",
+      "dateCreated": "May 10, 2019 6:12:53 PM",
+      "dateStarted": "May 10, 2019 7:06:24 PM",
+      "dateFinished": "May 10, 2019 7:06:24 PM",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\ntokened \u003d Tokenizer(inputCol\u003d\"incident_characteristics\", outputCol\u003d\"words\")\ntokened_transformed \u003d tokened.transform(df)\ntokened_transformed.show(50)",
+      "user": "",
+      "dateUpdated": "May 10, 2019 7:06:24 PM",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [
+          {}
+        ],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+------------------------+--------------------+\n|incident_characteristics|               words|\n+------------------------+--------------------+\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Dead (murd...|[shot, -, dead, (...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Dead (murd...|[shot, -, dead, (...|\n|    Shot - Dead (murd...|[shot, -, dead, (...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n|    Shot - Wounded/In...|[shot, -, wounded...|\n+------------------------+--------------------+\nonly showing top 50 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190510-172550_1534791721",
+      "dateCreated": "May 10, 2019 5:25:50 PM",
+      "dateStarted": "May 10, 2019 7:06:24 PM",
+      "dateFinished": "May 10, 2019 7:06:24 PM",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Remove stop words\nstop_list \u003d [\"||\"]\nremover \u003d StopWordsRemover(inputCol\u003d\"words\", outputCol\u003d\"filtered\", stopWords\u003dstop_list)\nremoved_frame \u003d remover.transform(tokened_transformed)\nremoved_frame.show(truncate\u003dFalse)",
+      "user": "",
+      "dateUpdated": "May 10, 2019 7:06:24 PM",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|incident_characteristics                                                                                                                                                                                                                                                                                                                                                                              |words                                                                                                                                                                                                                                                                                                                                                                                                                                           |filtered                                                                                                                                                                                                                                                                                                                                                                                                                                        |\n+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|Shot - Wounded/Injured||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Possession (gun(s) found during commission of other crimes)||Possession of gun by felon or prohibited person                                                                                                                                                            |[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||possession, (gun(s), found, during, commission, of, other, crimes)||possession, of, gun, by, felon, or, prohibited, person]                                                                                                                                                                         |[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||possession, (gun(s), found, during, commission, of, other, crimes)||possession, of, gun, by, felon, or, prohibited, person]                                                                                                                                                                         |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Gang involvement                                                                                                                                                                                                             |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                  |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                  |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Shots Fired - No Injuries||Bar/club incident - in or around establishment                                                                                                                                                                                                                                                          |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||shots, fired, -, no, injuries||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                                                                 |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||shots, fired, -, no, injuries||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                                                                 |\n|Shot - Dead (murder, accidental, suicide)||Officer Involved Incident||Officer Involved Shooting - subject/suspect/perpetrator killed||Drug involvement||Kidnapping/abductions/hostage||Under the influence of alcohol or drugs (only applies to the subject/suspect/perpetrator )                                                                                                                     |[shot, -, dead, (murder,, accidental,, suicide)||officer, involved, incident||officer, involved, shooting, -, subject/suspect/perpetrator, killed||drug, involvement||kidnapping/abductions/hostage||under, the, influence, of, alcohol, or, drugs, (only, applies, to, the, subject/suspect/perpetrator, )]                                                                                                                                    |[shot, -, dead, (murder,, accidental,, suicide)||officer, involved, incident||officer, involved, shooting, -, subject/suspect/perpetrator, killed||drug, involvement||kidnapping/abductions/hostage||under, the, influence, of, alcohol, or, drugs, (only, applies, to, the, subject/suspect/perpetrator, )]                                                                                                                                    |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Suicide^||Murder/Suicide||Attempted Murder/Suicide (one variable unsuccessful)||Domestic Violence                                                                                                                                                                                                                                  |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||suicide^||murder/suicide||attempted, murder/suicide, (one, variable, unsuccessful)||domestic, violence]                                                                                                                                                                                                                                                              |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||suicide^||murder/suicide||attempted, murder/suicide, (one, variable, unsuccessful)||domestic, violence]                                                                                                                                                                                                                                                              |\n|Shot - Dead (murder, accidental, suicide)||Home Invasion||Home Invasion - Resident killed||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Armed robbery with injury/death and/or evidence of DGU found                                                                                                                                         |[shot, -, dead, (murder,, accidental,, suicide)||home, invasion||home, invasion, -, resident, killed||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||armed, robbery, with, injury/death, and/or, evidence, of, dgu, found]                                                                                                                                                    |[shot, -, dead, (murder,, accidental,, suicide)||home, invasion||home, invasion, -, resident, killed||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||armed, robbery, with, injury/death, and/or, evidence, of, dgu, found]                                                                                                                                                    |\n|Shot - Dead (murder, accidental, suicide)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Domestic Violence                                                                                                                                                                                                                                    |[shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||domestic, violence]                                                                                                                                                                                                                                                           |[shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||domestic, violence]                                                                                                                                                                                                                                                           |\n|Shot - Wounded/Injured||Drive-by (car to street, car to car)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)                                                                                                                                                                                                                                    |[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                         |[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                         |\n|Shot - Wounded/Injured||Drive-by (car to street, car to car)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Gang involvement                                                                                                                                                                                                                  |[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                      |[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                      |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)                                                                                                                                                                                                                               |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                     |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                     |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Murder/Suicide||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)                                                                                                                                                                                                               |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||murder/suicide||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                     |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||murder/suicide||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                     |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Drive-by (car to street, car to car)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Gang involvement                                                                                                                                                                       |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                      |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                      |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Home Invasion||Home Invasion - Resident killed||Officer Involved Incident||Officer Involved Shooting - Officer shot||Officer Involved Shooting - Officer killed||Officer Involved Shooting - subject/suspect/perpetrator shot||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||home, invasion||home, invasion, -, resident, killed||officer, involved, incident||officer, involved, shooting, -, officer, shot||officer, involved, shooting, -, officer, killed||officer, involved, shooting, -, subject/suspect/perpetrator, shot||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||home, invasion||home, invasion, -, resident, killed||officer, involved, incident||officer, involved, shooting, -, officer, shot||officer, involved, shooting, -, officer, killed||officer, involved, shooting, -, subject/suspect/perpetrator, shot||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]|\n|Shot - Wounded/Injured||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Bar/club incident - in or around establishment                                                                                                                                                                                                                          |[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Bar/club incident - in or around establishment                                                                                                                                                                               |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                               |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                               |\n|Shot - Wounded/Injured||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Bar/club incident - in or around establishment                                                                                                                                                                                                                          |[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Drive-by (car to street, car to car)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Gang involvement                                                                                                                                                                       |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                      |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                      |\n|Shot - Wounded/Injured||Drive-by (car to street, car to car)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Gang involvement                                                                                                                                                                                                                  |[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                      |[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                      |\n|Shot - Wounded/Injured||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)||Bar/club incident - in or around establishment                                                                                                                                                                                                                          |[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |\n|Shot - Wounded/Injured||Shot - Dead (murder, accidental, suicide)||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetrator, one location)                                                                                                                                                                                                                               |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                     |[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                     |\n+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190510-172550_1678737594",
+      "dateCreated": "May 10, 2019 5:25:50 PM",
+      "dateStarted": "May 10, 2019 7:06:24 PM",
+      "dateFinished": "May 10, 2019 7:06:24 PM",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Run the hashing term frequency\nhashing \u003d HashingTF(inputCol\u003d\"filtered\", outputCol\u003d\"hashedValues\", numFeatures\u003dpow(2,4))\n\n# Transform into a DF\nhashed_df \u003d hashing.transform(removed_frame)\nhashed_df.show()",
+      "user": "",
+      "dateUpdated": "May 10, 2019 7:06:25 PM",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+------------------------+--------------------+--------------------+--------------------+\n|incident_characteristics|               words|            filtered|        hashedValues|\n+------------------------+--------------------+--------------------+--------------------+\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[1,2,3,4,5,6,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[0,3,4,6,7,8,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[3,5,6,7,8,9,...|\n|    Shot - Dead (murd...|[shot, -, dead, (...|[shot, -, dead, (...|(16,[0,1,2,3,4,7,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[1,3,7,10,11,...|\n|    Shot - Dead (murd...|[shot, -, dead, (...|[shot, -, dead, (...|(16,[1,2,3,4,6,7,...|\n|    Shot - Dead (murd...|[shot, -, dead, (...|[shot, -, dead, (...|(16,[3,4,6,8,10,1...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[1,3,4,6,8,11...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[0,1,3,4,6,8,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[3,4,6,7,8,11...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[3,4,6,7,8,11...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[0,1,3,4,6,7,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[1,2,3,4,6,7,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[3,4,5,6,8,9,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[3,4,5,6,7,8,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[3,4,5,6,8,9,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[0,1,3,4,6,7,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[0,1,3,4,6,8,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[3,4,5,6,8,9,...|\n|    Shot - Wounded/In...|[shot, -, wounded...|[shot, -, wounded...|(16,[3,4,6,7,8,11...|\n+------------------------+--------------------+--------------------+--------------------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190510-172550_2003476306",
+      "dateCreated": "May 10, 2019 5:25:50 PM",
+      "dateStarted": "May 10, 2019 7:06:24 PM",
+      "dateFinished": "May 10, 2019 7:06:25 PM",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Fit the IDF on the data set \nidf \u003d IDF(inputCol\u003d\"hashedValues\", outputCol\u003d\"features\")\nidfModel \u003d idf.fit(hashed_df)\nrescaledData \u003d idfModel.transform(hashed_df)",
+      "user": "",
+      "dateUpdated": "May 10, 2019 7:06:26 PM",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190510-172550_615719743",
+      "dateCreated": "May 10, 2019 5:25:50 PM",
+      "dateStarted": "May 10, 2019 7:06:25 PM",
+      "dateFinished": "May 10, 2019 7:06:26 PM",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    },
+    {
+      "title": "",
+      "text": "%pyspark\n# Display the DataFrame\nrescaledData.select(\"words\", \"features\").show(truncate\u003dFalse)",
+      "user": "",
+      "dateUpdated": "May 10, 2019 7:06:26 PM",
+      "config": {
+        "selectedInterpreter": {
+          "name": "spark.pyspark",
+          "profile": "pyspark",
+          "isCustom": false,
+          "editorLanguage": "python",
+          "className": "org.apache.zeppelin.spark.PySparkInterpreter",
+          "isDefault": false
+        },
+        "colWidth": 12.0,
+        "results": [],
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "data": "+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|words                                                                                                                                                                                                                                                                                                                                                                                                                                           |features                                                                                                                                                                                                                                                                                                       |\n+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||possession, (gun(s), found, during, commission, of, other, crimes)||possession, of, gun, by, felon, or, prohibited, person]                                                                                                                                                                         |(16,[1,2,3,4,5,6,7,8,9,11,12,13,14,15],[1.9050889895718495,1.1396776782265012,2.695525762746609,2.5418340011870497,1.4403374434314642,1.2442636443244766,2.9195136839168403,2.2327584748686067,2.316632194444824,0.1910985564159081,4.48485200220656,3.560003813623346,0.728656626095084,0.5718090040972663])  |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                  |(16,[0,3,4,6,7,8,11,12,13,14,15],[1.7788579926772943,2.0216443220599567,1.2709170005935249,1.2442636443244766,0.9731712279722801,1.1163792374343033,0.5732956692477242,4.48485200220656,2.3733358757488974,1.0929849391426258,0.5718090040972663])                                                             |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||shots, fired, -, no, injuries||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                                                                 |(16,[3,5,6,7,8,9,10,11,13,14],[2.0216443220599567,2.8806748868629284,1.2442636443244766,0.9731712279722801,1.1163792374343033,2.316632194444824,1.1049241550207498,0.9554927820795405,1.1866679378744487,0.364328313047542])                                                                                   |\n|[shot, -, dead, (murder,, accidental,, suicide)||officer, involved, incident||officer, involved, shooting, -, subject/suspect/perpetrator, killed||drug, involvement||kidnapping/abductions/hostage||under, the, influence, of, alcohol, or, drugs, (only, applies, to, the, subject/suspect/perpetrator, )]                                                                                                                                    |(16,[0,1,2,3,4,7,8,9,10,11,12,14],[3.5577159853545886,0.9525444947859247,1.1396776782265012,2.0216443220599567,2.5418340011870497,1.9463424559445601,2.2327584748686067,2.316632194444824,2.2098483100414996,0.5732956692477242,4.48485200220656,1.0929849391426258])                                          |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||suicide^||murder/suicide||attempted, murder/suicide, (one, variable, unsuccessful)||domestic, violence]                                                                                                                                                                                                                                                              |(16,[1,3,7,10,11,14],[0.9525444947859247,2.695525762746609,0.9731712279722801,1.1049241550207498,0.9554927820795405,0.364328313047542])                                                                                                                                                                        |\n|[shot, -, dead, (murder,, accidental,, suicide)||home, invasion||home, invasion, -, resident, killed||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||armed, robbery, with, injury/death, and/or, evidence, of, dgu, found]                                                                                                                                                    |(16,[1,2,3,4,6,7,8,11,12,13,14,15],[0.9525444947859247,2.2793553564530025,3.369407203433261,1.2709170005935249,3.7327909329734297,1.9463424559445601,1.1163792374343033,0.5732956692477242,4.48485200220656,2.3733358757488974,1.457313252190168,1.715427012291799])                                           |\n|[shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||domestic, violence]                                                                                                                                                                                                                                                           |(16,[3,4,6,8,10,11,12,13,14,15],[2.0216443220599567,1.2709170005935249,1.2442636443244766,1.1163792374343033,1.1049241550207498,0.3821971128318162,4.48485200220656,2.3733358757488974,1.0929849391426258,0.5718090040972663])                                                                                 |\n|[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                         |(16,[1,3,4,6,8,11,12,13,14,15],[0.9525444947859247,0.6738814406866522,3.8127510017805744,1.2442636443244766,1.1163792374343033,0.1910985564159081,7.474753337010933,2.3733358757488974,1.0929849391426258,1.1436180081945326])                                                                                 |\n|[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                      |(16,[0,1,3,4,6,8,11,12,13,14,15],[1.7788579926772943,0.9525444947859247,0.6738814406866522,3.8127510017805744,1.2442636443244766,1.1163792374343033,0.1910985564159081,7.474753337010933,2.3733358757488974,1.457313252190168,0.5718090040972663])                                                             |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                     |(16,[3,4,6,7,8,11,12,13,14,15],[2.0216443220599567,1.2709170005935249,1.2442636443244766,0.9731712279722801,1.1163792374343033,0.5732956692477242,4.48485200220656,2.3733358757488974,0.728656626095084,1.1436180081945326])                                                                                   |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||murder/suicide||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                     |(16,[3,4,6,7,8,11,12,13,14,15],[2.0216443220599567,1.2709170005935249,2.488527288648953,0.9731712279722801,1.1163792374343033,0.5732956692477242,4.48485200220656,2.3733358757488974,0.728656626095084,0.5718090040972663])                                                                                    |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                      |(16,[0,1,3,4,6,7,8,11,12,13,14,15],[1.7788579926772943,0.9525444947859247,2.0216443220599567,3.8127510017805744,1.2442636443244766,0.9731712279722801,1.1163792374343033,0.5732956692477242,7.474753337010933,2.3733358757488974,1.0929849391426258,1.1436180081945326])                                       |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||home, invasion||home, invasion, -, resident, killed||officer, involved, incident||officer, involved, shooting, -, officer, shot||officer, involved, shooting, -, officer, killed||officer, involved, shooting, -, subject/suspect/perpetrator, shot||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]|(16,[1,2,3,4,6,7,8,9,10,11,12,13,14,15],[0.9525444947859247,1.1396776782265012,2.695525762746609,1.2709170005935249,1.2442636443244766,0.9731712279722801,4.465516949737213,2.316632194444824,2.2098483100414996,1.3376898949113567,10.464654671815307,4.746671751497795,1.457313252190168,1.1436180081945326])|\n|[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |(16,[3,4,5,6,8,9,11,12,13,14],[2.0216443220599567,1.2709170005935249,2.8806748868629284,1.2442636443244766,2.2327584748686067,2.316632194444824,0.3821971128318162,4.48485200220656,2.3733358757488974,0.728656626095084])                                                                                     |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                               |(16,[3,4,5,6,7,8,9,11,12,13,14,15],[3.369407203433261,1.2709170005935249,2.8806748868629284,1.2442636443244766,0.9731712279722801,2.2327584748686067,1.158316097222412,0.7643942256636324,4.48485200220656,2.3733358757488974,0.728656626095084,0.5718090040972663])                                           |\n|[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |(16,[3,4,5,6,8,9,11,12,13,14],[2.0216443220599567,1.2709170005935249,2.8806748868629284,1.2442636443244766,2.2327584748686067,2.316632194444824,0.3821971128318162,4.48485200220656,2.3733358757488974,0.728656626095084])                                                                                     |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                      |(16,[0,1,3,4,6,7,8,11,12,13,14,15],[1.7788579926772943,0.9525444947859247,2.0216443220599567,3.8127510017805744,1.2442636443244766,0.9731712279722801,1.1163792374343033,0.5732956692477242,7.474753337010933,2.3733358757488974,1.0929849391426258,1.1436180081945326])                                       |\n|[shot, -, wounded/injured||drive-by, (car, to, street,, car, to, car)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||gang, involvement]                                                                                                                                                                                                                                      |(16,[0,1,3,4,6,8,11,12,13,14,15],[1.7788579926772943,0.9525444947859247,0.6738814406866522,3.8127510017805744,1.2442636443244766,1.1163792374343033,0.1910985564159081,7.474753337010933,2.3733358757488974,1.457313252190168,0.5718090040972663])                                                             |\n|[shot, -, wounded/injured||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)||bar/club, incident, -, in, or, around, establishment]                                                                                                                                                                                                                                               |(16,[3,4,5,6,8,9,11,12,13,14],[2.0216443220599567,1.2709170005935249,2.8806748868629284,1.2442636443244766,2.2327584748686067,2.316632194444824,0.3821971128318162,4.48485200220656,2.3733358757488974,0.728656626095084])                                                                                     |\n|[shot, -, wounded/injured||shot, -, dead, (murder,, accidental,, suicide)||mass, shooting, (4+, victims, injured, or, killed, excluding, the, subject/suspect/perpetrator,, one, location)]                                                                                                                                                                                                                                                     |(16,[3,4,6,7,8,11,12,13,14,15],[2.0216443220599567,1.2709170005935249,1.2442636443244766,0.9731712279722801,1.1163792374343033,0.5732956692477242,4.48485200220656,2.3733358757488974,0.728656626095084,1.1436180081945326])                                                                                   |\n+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\nonly showing top 20 rows\n\n",
+            "type": "TEXT"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "",
+      "id": "20190510-172550_667588056",
+      "dateCreated": "May 10, 2019 5:25:50 PM",
+      "dateStarted": "May 10, 2019 7:06:26 PM",
+      "dateFinished": "May 10, 2019 7:06:26 PM",
+      "status": "FINISHED",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 0
+    }
+  ],
+  "name": "Hashing",
+  "id": "2ECGXHCTJ",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "looknfeel": "juno"
+  },
+  "info": {}
+}
