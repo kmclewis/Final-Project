@@ -3,7 +3,10 @@ body {
   padding: 0;
   margin: 0;
 }
-
+p{
+  color: silver
+  
+}
 /* set map, body, and html to 100% of the screen size */
 #map,
 body,
@@ -121,4 +124,23 @@ img.resize {
   border: 2px solid rgb(20, 20, 20, 0.75);
   margin: 0;
   z-index: 1;
+}
+/* unvisited link */
+a:link {
+  color: white;
+}
+
+/* visited link */
+a:visited {
+  color: gray;
+}
+
+/* mouse over link */
+a:hover {
+  color: silver;
+}
+
+/* selected link */
+a:active {
+  color: darkgray;
 }
