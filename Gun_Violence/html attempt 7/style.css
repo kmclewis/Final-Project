@@ -1,0 +1,106 @@
+/* remove default margin and padding from body */
+body {
+  padding: 0;
+  margin: 0;
+}
+p{
+  color: silver
+  
+}
+/* set map, body, and html to 100% of the screen size */
+#map,
+body,
+html {
+  height: 100%;
+}
+body {
+  background-color: rgb(0, 0, 0);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.watermarked {
+  position: fixed;
+  top:450;
+  left:0;
+  right:0;
+  opacity: 50;
+  z-index:-1;
+}
+.box-text {
+  margin-top:250px auto;
+  align-self: center, center;
+  width: 320px;
+  padding: 50px;
+  color: whitesmoke;
+  background-position: center, center;
+  background-color:rgba(100, 100, 100, 0.63);
+  border: 2px solid rgba(100, 100, 100, 0.63);
+  margin: 0;
+  z-index: 1;
+
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  font-size: 14px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  background-color: #333;
+}
+
+
+img.resize {
+  min-width:85%;
+
+}
+
+.container3 {
+  padding-top: 200 px;
+  height: 10em;
+  position: relative;
+}
+.container4 {
+  padding-top:250px;
+  height: 10em;
+  position: relative }
+
+#text-box{
+  padding-top: 250px;
+  align-self: center, center,250px;
+  width: 320px;
+  padding: 50px;
+  color: whitesmoke;
+  background-position: center, center,250px;
+  background-color:rgb(20, 20, 20, 0.75);
+  border: 2px solid rgb(20, 20, 20, 0.75);
+  margin: 0;
+  z-index: 1;
+}
+/* unvisited link */
+a:link {
+  color: white;
+}
+
+/* visited link */
+a:visited {
+  color: gray;
+}
+
+/* mouse over link */
+a:hover {
+  color: silver;
+}
+
+/* selected link */
+a:active {
+  color: darkgray;
+}
