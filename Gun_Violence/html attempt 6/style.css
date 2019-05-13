@@ -59,7 +59,7 @@ body {
 
 
 img.resize {
-  min-width:85%;
+  max-width:85%;
 
 }
 
