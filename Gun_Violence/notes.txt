@@ -1,0 +1,25 @@
+Our data is nonlinear and is a time series.  
+
+We researched types of machine learning that worked with time series forecasting.
+
+We discovered a type of recurrent neural network called Long Short Term Memory.
+
+Recurrent neural networks can be used when data is sequential.  Our dataset is number of gun violence victims from 01/01/14 through 12/31/17.  
+
+The Long Short Term Memory model is very complex.  In short, it makes predictions using historic data.
+
+We're running a stacked LSTM model, which means it has multiple hidden layers stacked one on top of another.  LSTM layers require three-dimensional input and return a two-dimensional 
+output.  By setting the option "return_sequences=True", the layer will return a three-dimensional output which will feed into the next layer.  The model will eventually return a two-dimensional output.
+
+Our data has been split 75/25 based on the date 12/31/16.
+
+The training data is comprised of the years 2014 - 2016.  Our testing data is the year 2017.
+
+We used this model to predict 2017 gun violence victims and then graphed the results comparing 2017 actual numbers vs the model's predicted values. 
+
+The model has two LSTM layers and one Dense layer.  It runs for 14 epochs.  Loss is determined by 'mean squared error'.
+
+
+
+
+
